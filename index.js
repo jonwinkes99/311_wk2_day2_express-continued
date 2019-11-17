@@ -1,34 +1,20 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const uuid = require("uuid/v4");
-const contacts = require("./data/contacts");
-const vehicles = require("./data/vehicles");
-const comments = require("./data/comments");
-const products = require("./data/products");
+var bodyParser = require("body-parser");
+const commentsRouter = require("./routes/comments")
+//const contacts = require("./data/contacts");
+//const vehicles = require("./data/vehicles");
+//const commentsRouter = require('./routes/comments');
+//const products = require("./data/products");
 const app = express();
 const port = process.env.PORT || 4001;
-let counter = contacts.length;
+//let counter = contacts.length;
 app.use(express.static("public"));
 app.use(bodyParser.json());
-//--------------------------------------------
-app.get('/comments', (req, res) => {
-    res.json(comments);
-});
-app.get("/comments/:id", (req, res) => {
-    // res.json(comments._id == (req.params._id));
-    const id = req.params.id; 
-    const match = comments.find(comments => comments._id == Number(id));
-    console.log(match);
-    res.json(match);
-});
-app.post("/comments", (req, res) => {
-    comments.push({
-        _id: uuid(),
-        postId: 1,
-        ...req.body
-    });
-});
+
+app.use(commentsRouter);
 //-----------------------------------------------
+/*
+
 app.get('/contacts', (req, res) => {
     res.json(contacts);
 });
@@ -69,7 +55,7 @@ app.get("/products/:id", (req, res) => {
 });
 app.post("/products", (req, res) => {
 
-});
+});  */
 //------------------------------------------------
 app.listen(port, () => {
  console.log(`Web server is listening on port ${port}!`);
